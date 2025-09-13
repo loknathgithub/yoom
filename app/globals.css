@@ -70,6 +70,7 @@
   --color-primary-bg: #161925;
   --color-sidebar-primary-bg: #1C1F2E;
   --color-isActive: #0E78F9;
+  --color-isActive-hover: #035fff;
 
   --radius: 0.625rem;
   --background: oklch(1 0 0);

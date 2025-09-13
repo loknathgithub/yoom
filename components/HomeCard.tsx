@@ -13,9 +13,9 @@ interface HomeCardProps{
 const HomeCard = ({img, title, className, description, handleClick}: HomeCardProps) => {
   return (
         <div className={cn('bg-[#ff742e] px-4 py-6 flex flex-col justify-between w-full xl:max-w-full text-lg min-h-[260px] rounded-md cursor-pointer', className)} 
-        onClick={() => {handleClick}}>
+        onClick={() => {handleClick()}}>
             <div className='flex-center glass size-12 rounded-md'>
-            <Image src={img} alt='Logo' width={30} height={30} className='max-sm:size-18' />
+            <Image src={img} alt='Logo' width={30} height={30} className='max-sm:size-6' />
             </div>
 
             <div>
