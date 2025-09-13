@@ -29,16 +29,17 @@ const MeetingSetup = ({setIsMeetingSetup}: {setIsMeetingSetup: (value: boolean) 
         <label className='flex-center gap-2'>
           <input type="checkbox" 
           checked={isMicCamToggledOn}
-          onChange= {(e) => {setIsMicCamToggledOn(e.target.checked)}}/>
-        Mic & Cam permission
+          onChange= {(e) => {setIsMicCamToggledOn(e.target.checked)}}
+          />
+        Microphone & Camera permission
         </label>
-        <DeviceSettings />
+      <DeviceSettings />
       </div>
 
       <Button className="rounded-md bg-[var(--color-isActive)] px-4 py-2 text-white hover:bg-[var(--color-isActive-hover)] cursor-pointer" onClick={() => {
         call.join()
         setIsMeetingSetup(true)
-        }}>
+      }}>
         Join Meeting
       </Button>
     </div>

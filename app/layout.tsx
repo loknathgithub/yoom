@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
+import '@stream-io/video-react-sdk/dist/css/styles.css';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,6 +18,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Yoom",
   description: "Updated by Loknath saha",
+  icons: {
+    icon: '/icons/logo.svg'
+  }
 };
 
 export default function RootLayout({
