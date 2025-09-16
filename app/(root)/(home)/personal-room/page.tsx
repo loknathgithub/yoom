@@ -16,7 +16,7 @@ const Table = ({ title, description }: { title: string; description: string; }) 
   )
 }
 
-const personalRoom = () => {
+const PersonalRoom  = () => {
   const { user } = useUser();
   const meetingId = user?.id;
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meetingId}?personal=true`
@@ -85,4 +85,4 @@ const personalRoom = () => {
   )
 }
 
-export default personalRoom
+export default PersonalRoom 
