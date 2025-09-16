@@ -40,7 +40,7 @@ const Home = () => {
 
           <div>
             <h1 className='text-6xl font-bold md:text-5xl lg:text-7xl'>{currentTime}</h1>
-            <p className='text-xl font-normal lg:text-2xl text-gray-400'>{currentDate}</p>
+            <p className='text-xl font-normal lg:text-2xl text-gray-400 gap-2'>{currentDate}</p>
           </div>
         </div>
       </div>

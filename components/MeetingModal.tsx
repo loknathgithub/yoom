@@ -12,10 +12,10 @@ import { Button } from './ui/button';
 interface MeetingModalProps{
     isOpen: boolean;
     onClose: () => void;
-    title: string;
+    title?: string;
     buttonText?: string;
     handleClick?: () => void;
-    className: string;
+    className?: string;
     buttonIcon?: string;
     image?: string;
     children?: ReactNode;
@@ -26,7 +26,7 @@ const MeetingModal = ({isOpen, onClose, title, buttonText, handleClick, classNam
     <section>
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
         <DialogContent className='flex w-full max-w-[520px] flex-col gap-6  bg-[var(--color-sidebar-primary-bg)] border-none px-6 py-9 text-white'>
-            <div className='flex flex-col gap-6'>
+            <div className='flex flex-col gap-6 items-center'>
                 {image && (
                     <Image src={image} alt='image' width={72} height={72} className='max-sm:size-18' />
                 )}
@@ -35,9 +35,9 @@ const MeetingModal = ({isOpen, onClose, title, buttonText, handleClick, classNam
             <DialogTitle className={cn('flex-center font-bold text-2xl', className)}>{title}</DialogTitle>
             <h1 className={cn('flex-center font-bold text-2xl leading-[42px]', className)}>{children}</h1>
 
-            <Button className="bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg" onClick={handleClick}>
+            <Button className="bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg items-center" onClick={handleClick}>
                 {buttonIcon && (
-                    <Image src={buttonIcon} alt='image' width={13} height={13} className='max-sm:size-18' />
+                    <Image src={buttonIcon} alt='image' width={20} height={20} className='max-sm:size-4' />
                 )} &nbsp;
                 {buttonText || 'Schedule Meeting'}</Button>
         </DialogContent>

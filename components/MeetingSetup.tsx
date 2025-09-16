@@ -30,8 +30,8 @@ const MeetingSetup = ({setIsMeetingSetup}: {setIsMeetingSetup: (value: boolean) 
           <input type="checkbox" 
           checked={isMicCamToggledOn}
           onChange= {(e) => {setIsMicCamToggledOn(e.target.checked)}}
-          />
-        Microphone & Camera permission
+        />
+              Microphone & Camera permission
         </label>
       <DeviceSettings />
       </div>

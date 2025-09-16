@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LayoutList, Users } from 'lucide-react'
 import { Button } from './ui/button'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
 
@@ -22,7 +22,7 @@ const MeetingRoom = () => {
   const isPersonalRoom = !!useSearchParams().get('personal');
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
-
+  const router = useRouter();
   const { useCallCallingState } = useCallStateHooks();   // exposing all the call hooks
   const callingState = useCallCallingState();
 
@@ -55,13 +55,13 @@ const MeetingRoom = () => {
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
 
-      <div className='flex justify-center items-center fixed bottom-0 pb-2 flex-wrap'>
-        <CallControls/>
+      <div className='flex justify-center w-full items-center fixed bottom-0 pb-2 flex-wrap bg-gray-800 rounded-lg'>
+        <CallControls onLeave={() => router.push('/')}/>
 
         <DropdownMenu>
 
         <div className='flex items-center'>
-        <DropdownMenuTrigger className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]'>
+        <DropdownMenuTrigger className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b] gap-2 mx-4'>
           <LayoutList size={20} className='text-white'/>
         </DropdownMenuTrigger>
         </div>
@@ -81,8 +81,8 @@ const MeetingRoom = () => {
       </DropdownMenu>
       <CallStatsButton />
 
-      <Button onClick={() => setShowParticipants((prev)=> !prev)}>
-          <div className='cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]'>
+      <Button onClick={() => setShowParticipants((prev)=> !prev)} className='bg-gray-800 hover:bg-gray-800' >
+          <div className='cursor-pointer rounded-3xl bg-[#19232d] px-5 py-3 hover:bg-[#4c535b]'>
             <Users size={20} className='text-white'/>
           </div>  
       </Button>

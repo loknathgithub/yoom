@@ -71,6 +71,9 @@
   --color-sidebar-primary-bg: #1C1F2E;
   --color-isActive: #0E78F9;
   --color-isActive-hover: #035fff;
+  --button-background: #252A41;
+  --button-background-hover: #444b69;
+
 
   --radius: 0.625rem;
   --background: oklch(1 0 0);
