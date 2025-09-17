@@ -23,7 +23,7 @@ const MeetingTypeList = () => {
     const { user } = useUser();
     const client = useStreamVideoClient();
     const [values, setValues] = useState<MeetingValues>({
-        dateTime: null,
+        dateTime: new Date,
         description:'',
         link:'',
         scheduledAt: null,
@@ -35,6 +35,7 @@ const MeetingTypeList = () => {
 
         try {
             if(!values.dateTime){
+                console.log(values)
                 toast("Please select a date and time");
                 return;
             }

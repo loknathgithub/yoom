@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import MeetingCard from './MeetingCard';
 import { useToast } from './ui/use-toast';
+import Loader from './Loader';
 
 const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings'}) => {
   
@@ -56,6 +57,8 @@ const CallList = ({ type }: { type: 'ended' | 'upcoming' | 'recordings'}) => {
 
   const calls = getCalls();
   const noCallsMessage = getNoCallsMessage();
+
+  if(isLoading) return <Loader/>
 
   return (
     <div className='grid grid-cols-1 gap-5 xl:grid-cols-2'>
