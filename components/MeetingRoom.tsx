@@ -10,9 +10,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { LayoutList, Users } from 'lucide-react'
 import { Button } from './ui/button'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import EndCallButton from './EndCallButton'
 import Loader from './Loader'
+import { useIsMobile } from '@/hooks/useIsMobile'
 
 
 
@@ -25,10 +26,13 @@ const MeetingRoom = () => {
   const router = useRouter();
   const { useCallCallingState } = useCallStateHooks();   // exposing all the call hooks
   const callingState = useCallCallingState();
+  const isMobile = useIsMobile();
 
   if(callingState !== CallingState.JOINED) return <Loader/>
 
   const CallLayout = () => {
+    if(isMobile) return <SpeakerLayout participantsBarPosition='bottom' />;
+
     switch (layout) {
       case 'grid':
         return <PaginatedGridLayout />
@@ -58,6 +62,7 @@ const MeetingRoom = () => {
       <div className='flex justify-center w-full items-center fixed bottom-0 pb-2 flex-wrap bg-gray-800 rounded-lg'>
         <CallControls onLeave={() => router.push('/')}/>
 
+      { !isMobile && (
         <DropdownMenu>
 
         <div className='flex items-center'>
@@ -79,6 +84,7 @@ const MeetingRoom = () => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
+      )}
       <CallStatsButton />
 
       <Button onClick={() => setShowParticipants((prev)=> !prev)} className='bg-gray-800 hover:bg-gray-800' >
