@@ -1,4 +1,5 @@
 'use client'
+import CallList from '@/components/CallList';
 import MeetingTypeList from '@/components/MeetingTypeList';
 import React, { useEffect, useState } from 'react'
 
@@ -46,6 +47,12 @@ const Home = () => {
       </div>
 
       <MeetingTypeList />
+
+      <section className="flex size-full flex-col gap-10 text-white pt-6">
+      <h1 className="text-3xl font-bold">Upcoming Meetings</h1>
+
+      <CallList type="upcoming" />
+    </section>
     </section>
   )
 }
