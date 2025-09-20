@@ -1,5 +1,5 @@
 'use client';
-import { useUser } from '@clerk/nextjs';
+import { useSession } from 'next-auth/react';
 import React, { use, useState } from 'react'
 import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk';
 import MeetingSetup from '@/components/MeetingSetup';
@@ -9,11 +9,11 @@ import Loader from '@/components/Loader';
 
 const Meeting = ({ params }: { params: Promise<{id: string}> }) => {
   const { id } = use(params);
-  const { user, isLoaded } = useUser();
+  const { data:session, status } = useSession();
   const [isMeetingSetup, setIsMeetingSetup] = useState(false);
   const { call, isCallLoading } = useGetCallById(id);
 
-  if(!isLoaded || isCallLoading || !call) return <Loader />
+  if(!status || isCallLoading || !call) return <Loader />
 
   return (
     <main className='h-screen w-full'>

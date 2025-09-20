@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+// import { ClerkProvider } from "@clerk/nextjs";
+import { SessionProvider } from "next-auth/react"
 import { Toaster } from "@/components/ui/sonner";
 import '@stream-io/video-react-sdk/dist/css/styles.css';
 
@@ -34,7 +35,7 @@ export default function RootLayout({
     <html lang="en">
     <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--color-primary-bg)] text-white`}>
-      <ClerkProvider
+      {/* <ClerkProvider
         appearance={{
           layout:{
             logoImageUrl: '/icons/yoom-logo.svg',
@@ -50,12 +51,12 @@ export default function RootLayout({
         }
         }>
 
-        
+      </ClerkProvider> */}
 
+      <SessionProvider>
         {children}
         <Toaster />
-      
-      </ClerkProvider>
+      </SessionProvider>
       </body>
     </html>
   );

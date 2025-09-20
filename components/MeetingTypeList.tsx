@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import HomeCard from './HomeCard'
 import { useRouter } from 'next/navigation'
 import MeetingModal from './MeetingModal'
-import { useUser } from '@clerk/nextjs'
+import { useSession } from 'next-auth/react';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk'
 import { toast } from "sonner"
 import { Textarea } from './ui/textarea'
@@ -20,7 +20,7 @@ interface MeetingValues {
 const MeetingTypeList = () => {
     
     const [meetingState, setMeetingState] = useState<'isScheduleMeeting'|'isJoiningMeeting'|'isInstantMeeting'|undefined>()
-    const { user } = useUser();
+    const { data:session } = useSession();
     const client = useStreamVideoClient();
     const [values, setValues] = useState<MeetingValues>({
         dateTime: new Date,
@@ -31,7 +31,7 @@ const MeetingTypeList = () => {
     const [callDetails, setCallDetails] = useState<Call>();
 
     const createMeeting = async () => {
-        if(!user || !client) return;
+        if(!session?.user || !client) return;
 
         try {
             if(!values.dateTime){

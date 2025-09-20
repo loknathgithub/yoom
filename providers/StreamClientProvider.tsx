@@ -1,5 +1,5 @@
 "use client"
-import { useUser } from "@clerk/nextjs";
+import { useSession } from 'next-auth/react';
 import {
   StreamCall,
   StreamVideo,
@@ -22,25 +22,25 @@ const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
 export const StreamVideoProvider = ({children}: {children: ReactNode}) => {
   const [ videoClient, setVideoClient ] = useState<StreamVideoClient>();
-  const { user, isLoaded } = useUser();
+  const { data:session, status } = useSession();
   
   useEffect(() => {
-    if(!user || !isLoaded) return;
+    if(!session?.user || !status) return;
     if(!apiKey) throw new Error("Stream API key missing");
 
     const client = new StreamVideoClient({
         apiKey,
         user:{
-            id: user?.id,
-            name: user?.username || user?.id,
-            image: user?.imageUrl,
+            id: session?.user?.id as string,
+            name: session?.user?.name || session?.user?.id,
+            image: session?.user?.image ?? undefined,
         },
         tokenProvider,
     })
 
     setVideoClient(client);
 
-  }, [user, isLoaded]);
+  }, [session?.user, status]);
 
 
     if(!videoClient) return <Loader />;

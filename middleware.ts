@@ -1,23 +1,19 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "./auth";
 
-const isProtectedRoute = createRouteMatcher([
-  '/',
-  '/upcoming',
-  '/recordings',
-  '/previous',
-  '/personal-room',
-  '/meeting(.*)',
-])
+const protectedRoutes = [ '/',
+    '/upcoming',
+    '/recordings',
+    '/previous',
+    '/personal-room',
+    '/meeting(.*)']
 
-export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect()
-})
+export default async function middleware(request: NextRequest){
+    const session = await authOptions.auth();
+    const { pathname } = request.nextUrl;
+    const isProtected = protectedRoutes.some((route) => pathname.startsWith(route))
 
-export const config = {
-  matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    // Always run for API routes
-    '/(api|trpc)(.*)',
-  ],
+    if(isProtected && !session) return NextResponse.redirect(new URL("/auth/signin", request.url))
+    
+    return NextResponse.next()
 }
