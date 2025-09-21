@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import MobileNav from './MobileNav'
+import SignOut from './SignOut'
 
 const Navbar = () => {
   return (
@@ -13,6 +14,7 @@ const Navbar = () => {
 
         <div className='flex-between justify-center items-center gap-2'>
             {/* Implement the user button here to see profile */}
+            <SignOut />
             
         <MobileNav />
         </div>

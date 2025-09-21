@@ -20,6 +20,10 @@ const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 // const call = client.call("default", "my-first-call");
 // call.join({ create: true });
 
+function streamSafeId(email: string) {
+  return email.replace(/[^a-z0-9@_-]/gi, "_").toLowerCase();
+}
+
 export const StreamVideoProvider = ({children}: {children: ReactNode}) => {
   const [ videoClient, setVideoClient ] = useState<StreamVideoClient>();
   const { data:session, status } = useSession();
@@ -31,14 +35,23 @@ export const StreamVideoProvider = ({children}: {children: ReactNode}) => {
     const client = new StreamVideoClient({
         apiKey,
         user:{
-            id: session?.user?.id as string,
-            name: session?.user?.name || session?.user?.id,
-            image: session?.user?.image ?? undefined,
+
+          // In clerk there is id by default, but in next auth id is not present, only {name, email, image} is there
+          // so I replaced the id with email as id, and map it to a accepted format using streamSafeId in both token generator
+          // 'tokenProvider' and here, so that I am now getting the token from tokenProvider accurately, resolving the problem of Id not found
+
+          id: streamSafeId(session?.user?.email!),   
+          name: session?.user?.name ?? session?.user?.email ?? undefined, 
+          image: session?.user?.image ?? undefined,
         },
         tokenProvider,
     })
 
     setVideoClient(client);
+
+    return () => {
+    client.disconnectUser?.();
+    };
 
   }, [session?.user, status]);
 

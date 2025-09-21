@@ -7,7 +7,6 @@ import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk'
 import { toast } from "sonner"
 import { Textarea } from './ui/textarea'
 import DatePicker  from '@/components/DatePicker'
-import { scheduler } from 'timers/promises'
 import { Input } from './ui/input'
 
 interface MeetingValues {
@@ -31,6 +30,7 @@ const MeetingTypeList = () => {
     const [callDetails, setCallDetails] = useState<Call>();
 
     const createMeeting = async () => {
+        console.log("meeting handler called in handler")
         if(!session?.user || !client) return;
 
         try {
@@ -77,7 +77,10 @@ return (
             img='/icons/add-meeting.svg'
             title='New Meeting'
             description='Setup new meeting'
-            handleClick={() => setMeetingState('isInstantMeeting')}
+            handleClick={() => {
+                console.log("Home card clicked!")
+                setMeetingState('isInstantMeeting')
+            }}
             className = 'bg-[#ff742e]'
         />
         
@@ -158,7 +161,11 @@ return (
             title="Start an Instant Meeting"
             buttonText="Create now"
             className="text-center"
-            handleClick={createMeeting}/>
+            handleClick={() => {
+                console.log("in modal")
+                createMeeting()
+                console.log("meeting handler called in modal")
+                }}/>
 
 
         {/* Join meeting modal */}

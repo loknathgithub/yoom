@@ -6,5 +6,6 @@ export const logIn = async () => {
 }
 
 export const logOut = async () => {
-    await signOut({redirectTo: "/signin"})
+    console.log("log out button clicked")
+    await signOut({redirectTo: "/"})
 }
