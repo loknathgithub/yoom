@@ -45,19 +45,22 @@ const MeetingRoom = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
-      <div className="relative flex size-full items-center justify-center">
-        <div className=" flex size-full max-w-[1000px] items-center">
-          <CallLayout />
-        </div>
+      <div className="flex size-full h-[calc(100vh-86px)] items-center justify-center gap-2">
+          <div
+            className={cn(
+              "transition-all duration-300",
+              showParticipants ? "w-[75%]" : "w-[93%]"
+            )}
+          >
+            <CallLayout />
+          </div>
 
-        <div
-          className={cn(
-            'h-[calc(100vh-86px)] hidden ml-2',
-            showParticipants ? 'block' : 'hidden'
+          {/* Participants Panel */}
+          {showParticipants && (
+            <div className="w-[25%] h-full overflow-y-auto">
+              <CallParticipantsList onClose={() => setShowParticipants(false)} />
+            </div>
           )}
-        >
-          <CallParticipantsList onClose={() => setShowParticipants(false)} />
-        </div>
 
       <div className='fixed bottom-0 flex w-full items-center justify-center gap-2 bg-gray-800 flex-wrap'>
         <CallControls onLeave={() => router.push('/')}/>
