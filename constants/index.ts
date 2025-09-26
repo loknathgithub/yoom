@@ -24,6 +24,11 @@ export const sidebarLinks =[
         route: "/personal-room",
         imgURL: '/icons/add-personal.svg',
     },
+    {
+        label: 'Chat Room',
+        route: "/chat-room",
+        imgURL: '/icons/message-white.svg',
+    },
 ]
 
 export const avatarImages = [

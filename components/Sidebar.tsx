@@ -14,11 +14,9 @@ const Sidebar = () => {
   return (
     <>
       <section className='sticky left-0 top-0 flex h-screen w-fit flex-col justify-between bg-[var(--color-sidebar-primary-bg)] p-6 pt-28 md:pt-30 text-white max-sm:hidden lg:w-[264px]'>
-
         <div className='flex flex-1 flex-col gap-6'>         
             {sidebarLinks.map((link) => {
                 const isActive = pathname === link.route
-
                 return(
                     <Link
                     href={link.route}
@@ -29,6 +27,7 @@ const Sidebar = () => {
                         <Image src={link.imgURL} alt={link.label} width={21} height={21}/>
                         <p className='pl-1 text-lg font-semibold max-lg:hidden'>{link.label}</p>
                     </Link>
+                    
                 )
             })}
         </div>
