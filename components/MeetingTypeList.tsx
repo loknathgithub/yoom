@@ -7,7 +7,6 @@ import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk'
 import { toast } from "sonner"
 import { Textarea } from './ui/textarea'
 import DatePicker  from '@/components/DatePicker'
-import { scheduler } from 'timers/promises'
 import { Input } from './ui/input'
 
 interface MeetingValues {

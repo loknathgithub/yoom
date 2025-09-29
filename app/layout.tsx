@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import '@stream-io/video-react-sdk/dist/css/styles.css';
+import { ChatProvider } from "@/context/ChatContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,11 +50,12 @@ export default function RootLayout({
           }
         }
         }>
-
         
-
+        <ChatProvider>
         {children}
-        <Toaster position="bottom-left"/>
+        </ChatProvider>
+        
+        <Toaster position="top-center"/>
       
       </ClerkProvider>
       </body>
