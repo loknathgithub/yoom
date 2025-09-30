@@ -9,10 +9,10 @@ import {
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { join } from 'path';
 import { toast } from 'sonner';
 import { createRoomUtils, joinChatUtils } from '@/lib/roomService';
 import useChatContext from '@/context/ChatContext';
+import { AxiosError } from 'axios';
 
 interface MeetingValues {
     dateTime: Date | null
@@ -45,6 +45,7 @@ const page = () => {
 
     async function joinChat(){
         if(validateInput()){
+            try {
             const response = await joinChatUtils(roomId);
             if(!response) {
                 toast.error("Something went wrong, try again later");
@@ -55,7 +56,15 @@ const page = () => {
             setContextRoomId(response.roomId);
             setConnected(true);
             toast.success("Room joined successfully");
-            router.push(`/chat-room/${response.roomId}`);
+            router.push(`/chat-room/${response.roomId}`);     
+            } catch (err) {
+            const error = err as AxiosError;
+            if(error.status === 404){
+                toast.error("Room not found");
+            }
+            console.error("Error occurred while joining room:", error);
+            toast.error("Failed to joining room");
+            }
         }
     }
 
@@ -115,7 +124,8 @@ const page = () => {
         </DialogContent>
         </Dialog>
     </div>
-  )
+    )
 }
+
 
 export default page

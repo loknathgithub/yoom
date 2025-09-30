@@ -25,3 +25,8 @@ export const joinChatUtils = async (roomId: string) =>{
         console.error("Error occurred while joining room: ", error);
     }
 }
+
+export const getMessages = async (roomId: string, size=50)=>{
+    const response = await httpClient.get(`/api/v1/rooms/find/${roomId}/messages?size=${size}`)
+    return response.data
+}

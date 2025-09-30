@@ -7,6 +7,7 @@ const isProtectedRoute = createRouteMatcher([
   '/previous',
   '/personal-room',
   '/meeting(.*)',
+  'chat-room'
 ])
 
 export default clerkMiddleware(async (auth, req) => {
