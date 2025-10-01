@@ -19,7 +19,7 @@ type message = {
     // email: string;
 }
 
-const chatRoom = () => {    
+const ChatRoom = () => {    
     const { roomId } = useParams<{ roomId: string }>();
     const [input, setInput] = useState("");
     const stompClient = useRef<CompatClient | null>(null);
@@ -204,4 +204,4 @@ const chatRoom = () => {
     )
 }
 
-export default chatRoom;
+export default ChatRoom;

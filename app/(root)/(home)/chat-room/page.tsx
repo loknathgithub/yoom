@@ -21,7 +21,7 @@ interface MeetingValues {
     scheduledAt: string | null
 }
 
-const page = () => {
+const Page = () => {
     const router = useRouter();
     const [meetingState, setMeetingState] = React.useState<'isScheduleMeeting'|'isJoiningMeeting'|'isInstantMeeting'|undefined>()
     const [values, setValues] = useState<MeetingValues>({
@@ -128,4 +128,4 @@ const page = () => {
 }
 
 
-export default page
+export default Page
