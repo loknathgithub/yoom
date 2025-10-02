@@ -36,7 +36,7 @@ const Home = () => {
     <section className='flex size-full flex-col gap-10 text-white'>
 
       {/* banner */}
-      <div className='h-[800px] w-full rounded-[20px] bg-hero bg-cover bg-center'>
+      <div className='h-[400px] w-full rounded-[20px] bg-hero bg-cover bg-center'>
         <div className='flex h-full flex-col justify-between max-md:px-5 max-md:py-8 lg:p-11'>
           <h2 className='glass max-w-[270px] text-center text-base py-1'>Upcoming Meeting at: 12:30</h2>
 
