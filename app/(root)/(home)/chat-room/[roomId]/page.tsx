@@ -46,7 +46,7 @@ const ChatRoom = () => {
         if (!roomId || !isLoaded || !user) {
             return; // Guard against running before everything is ready
         }
-        const socketUrl = process.env.NEXT_PUBLIC_SPRING_CHAT_URL!.replace(/^https/, 'wss');
+        const socketUrl = process.env.NEXT_PUBLIC_SPRING_CHAT_URL;
         const client = Stomp.over(() => new SockJS(`${socketUrl}/chat`));
 
         // For production, you might want to disable the verbose console logs
