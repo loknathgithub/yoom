@@ -50,12 +50,6 @@ const Home = () => {
 
 
       <MeetingTypeList />
-
-      <section className="flex size-full flex-col gap-10 text-white pt-6">
-      <h1 className="text-3xl font-bold">Upcoming Meetings</h1>
-
-      <CallList type="upcoming" />
-    </section>
     </section>
   )
 }
