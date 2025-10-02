@@ -27,7 +27,7 @@ const ChatRoom = () => {
     const chatBoxRef = useRef<HTMLDivElement>(null);
     const { user, isLoaded } = useUser();
     const router = useRouter();
-    const { contextRoomId, connected } = useChatContext();
+    const { contextRoomId, connected,setConnected } = useChatContext();
     const [messages, setMessages] = useState<message[]>([]);
     const [isloading,setLoading]=useState<boolean>(false)
 
@@ -140,12 +140,14 @@ const ChatRoom = () => {
         {/* Right side */}
         <div className="flex gap-4">
             <Button className="bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] cursor-pointer " onClick={() => {
+                setConnected(false)
                 router.push(`/chat-room`);
             }}>
                 {/* <img src="/icons/chat-add-icon.svg" alt="Join" className='hidden:md hidden:xl' width={14} height={14}/> */}
                 <p>Join other room</p>
             </Button>
             <Button className="bg-red-500 hover:bg-red-700 cursor-pointer" onClick={() => {
+                setConnected(false)
                 router.push('/chat-room');
             }}>
                 {/* <img src="/icons/subtract-color-icon.svg" alt="Leave" className='hidden:md hidden:xl' width={14} height={14}/> */}
