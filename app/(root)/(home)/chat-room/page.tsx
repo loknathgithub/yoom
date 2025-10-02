@@ -56,6 +56,7 @@ const Page = () => {
             setContextRoomId(response.roomId);
             setConnected(true);
             toast.success("Room joined successfully");
+            console.log("room id ",response.roomId)
             router.push(`/chat-room/${response.roomId}`);     
             } catch (err) {
             const error = err as AxiosError;

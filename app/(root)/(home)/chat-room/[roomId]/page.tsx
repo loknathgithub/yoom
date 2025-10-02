@@ -29,6 +29,7 @@ const ChatRoom = () => {
     const router = useRouter();
     const { contextRoomId, connected } = useChatContext();
     const [messages, setMessages] = useState<message[]>([]);
+    const [isloading,setLoading]=useState<boolean>(false)
 
     // message init
     useEffect(() => {
@@ -76,16 +77,18 @@ const ChatRoom = () => {
 
     // 3. UPDATED sendMessage FUNCTION
     const sendMessage = () => {
-        console.log("--- Send Message Clicked ---");
+        if(isloading) return;
+        // console.log("--- Send Message Clicked ---");
 
         // 1. Log the state of our checks
-        console.log("Is client connected?", stompClient.current?.connected);
-        console.log("Is input empty?", `'${input.trim()}'`);
-        console.log("Is user loaded?", !!user);
+        // console.log("Is client connected?", stompClient.current?.connected);
+        // console.log("Is input empty?", `'${input.trim()}'`);
+        // console.log("Is user loaded?", !!user);
 
         // 2. The main check to see if we can send
         if (stompClient.current?.connected && input.trim() && user) {
-            console.log("✅ Conditions met. About to send message...");
+            setLoading(true)
+            // console.log("✅ Conditions met. About to send message...");
 
             const message = {
                 sender: user.fullName,
@@ -94,8 +97,8 @@ const ChatRoom = () => {
             };
 
             const destination = `/app/sendMessage/${roomId}`;
-            console.log("Destination:", destination);
-            console.log("Message Body:", JSON.stringify(message));
+            // console.log("Destination:", destination);
+            // console.log("Message Body:", JSON.stringify(message));
 
             // The actual send command
             stompClient.current.send(
@@ -110,6 +113,7 @@ const ChatRoom = () => {
             console.log("❌ Conditions not met. Message not sent.");
             console.log("--------------------------");
         }
+        setLoading(false)
     };
 
 
@@ -188,13 +192,14 @@ const ChatRoom = () => {
             onKeyDown={(e) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
+                    console.log("from enter")
                     sendMessage();
                 }
                 }}
             />
             <Button className="bg-[var(--color-isActive)] h-[40px] hover:bg-[var(--color-isActive-hover)] cursor-pointer text-lg" 
-            value={input}
             onClick={()=>{
+                console.log("from button")
                 sendMessage();
             }}>
                 <Image src="/icons/sendIcon.svg" alt="Send" width={18} height={18} />
