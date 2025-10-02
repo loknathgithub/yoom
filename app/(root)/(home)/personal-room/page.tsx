@@ -45,8 +45,8 @@ const PersonalRoom  = () => {
 
       <div className='flex flex-col w-full gap-8 xl:max-w-[900px]'>
         <Table title='Topic' description={`${user?.fullName || user?.primaryEmailAddress?.emailAddress}'s Meeting Room`} />
-        <Table title='Invite Link' description={`${meetingLink}`} />
-        <Table title='Meeting ID' description={`${meetingId!}`}/>
+        {/* <Table title='Invite Link' description={`${meetingLink}`} /> */}
+        <Table title='User ID' description={`${meetingId!}`}/>
       </div>
       <div className='flex gap-2'>
         <Button className='bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] cursor-pointer' onClick={startRoom}>

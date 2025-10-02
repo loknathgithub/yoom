@@ -30,8 +30,9 @@ const MobileNav = () => {
         </SheetTrigger>
         <SheetContent side='left' className='border-none bg-[var(--color-sidebar-primary-bg)]'>
             <Link href='/' className='flex gap-1 items-center p-3'>
-            <Image src='/icons/yoom-logo.svg' alt='Logo' width={30} height={30} className='max-sm:size-18'/>
-            <p className='text-[26px] font-extrabold text-white max-sm:hidden'>Yoom</p>
+            <Image src='/icons/logo.svg' alt='Logo' width={30} height={30} className='max-sm:size-14'/>
+            <p className='text-[26px] font-extrabold text-white '>Simple Meet</p> 
+            {/* max-sm:hidden */}
             </Link>
 
             <div className='flex h-[calc(100vh-72px)] flex-col justify-between overflow-y-auto'>

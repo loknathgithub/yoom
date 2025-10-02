@@ -3,7 +3,7 @@ import { StreamVideoProvider } from '@/providers/StreamClientProvider'
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Yoom",
+  title: "Simple Meet",
   description: "Updated by Loknath saha",
   icons: {
     icon: '/icons/logo.svg'
