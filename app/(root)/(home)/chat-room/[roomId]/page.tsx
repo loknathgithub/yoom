@@ -11,7 +11,7 @@ import { baseUrl } from '@/lib/axiosHelper';
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import { toast } from 'sonner';
 import { AxiosError } from 'axios';
-import { getMessages } from '@/lib/roomService';
+import { getMessages, joinChatUtils } from '@/lib/roomService';
 
 type message = {
     content: string;
@@ -27,15 +27,19 @@ const ChatRoom = () => {
     const chatBoxRef = useRef<HTMLDivElement>(null);
     const { user, isLoaded } = useUser();
     const router = useRouter();
+    const [roomName, setRoomName] = useState<string>();
     const { contextRoomId, connected,setConnected } = useChatContext();
     const [messages, setMessages] = useState<message[]>([]);
     const [isloading,setLoading]=useState<boolean>(false)
+    const [isSendMessage, setIsSendMessage] = useState<boolean>(false);
 
     // message init
     useEffect(() => {
         async function loadMessages(){
             const prevMessages = await getMessages(roomId);
-            console.log(prevMessages)
+            const getRoomDetails = await joinChatUtils(roomId);
+            console.log(prevMessages, getRoomDetails)
+            setRoomName(getRoomDetails.roomName)
             setMessages(prevMessages)
         }
 
@@ -77,6 +81,7 @@ const ChatRoom = () => {
 
     // 3. UPDATED sendMessage FUNCTION
     const sendMessage = () => {
+        setIsSendMessage(true)
         if(isloading) return;
         // console.log("--- Send Message Clicked ---");
 
@@ -114,6 +119,7 @@ const ChatRoom = () => {
             console.log("--------------------------");
         }
         setLoading(false)
+        setIsSendMessage(false)
     };
 
 
@@ -134,7 +140,8 @@ const ChatRoom = () => {
         <nav className="w-full  py-3 flex items-center justify-between border-b-[1px] border-b-gray-400 px-4">
         {/* Left side */}
         <div className="font-semibold text-sm xl:text-lg">
-            {decodeURIComponent(roomId)}
+            <p className='text-lg'>{roomName} (ID: {decodeURIComponent(roomId)})</p>
+            
         </div>
 
         {/* Right side */}
@@ -203,7 +210,8 @@ const ChatRoom = () => {
             onClick={()=>{
                 console.log("from button")
                 sendMessage();
-            }}>
+            }}
+            disabled={isSendMessage}>
                 <Image src="/icons/sendIcon.svg" alt="Send" width={18} height={18} />
             </Button>
         </div>

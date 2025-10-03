@@ -13,6 +13,8 @@ import { toast } from 'sonner';
 import { createRoomUtils, joinChatUtils } from '@/lib/roomService';
 import useChatContext from '@/context/ChatContext';
 import { AxiosError } from 'axios';
+import { Tailspin } from 'ldrs/react'
+import 'ldrs/react/Tailspin.css'
 
 interface MeetingValues {
     dateTime: Date | null
@@ -23,19 +25,23 @@ interface MeetingValues {
 
 const Page = () => {
     const router = useRouter();
-    const [meetingState, setMeetingState] = React.useState<'isScheduleMeeting'|'isJoiningMeeting'|'isInstantMeeting'|undefined>()
-    const [values, setValues] = useState<MeetingValues>({
-            dateTime: new Date,
-            description:'',
-            link:'',
-            scheduledAt: null,
-        });
-    const pathname = usePathname();
-    const [roomId, setRoomId] = useState<string>("");
+    // const [meetingState, setMeetingState] = React.useState<'isScheduleMeeting'|'isJoiningMeeting'|'isInstantMeeting'|undefined>()
+    // const [values, setValues] = useState<MeetingValues>({
+    //         dateTime: new Date,
+    //         description:'',
+    //         link:'',
+    //         scheduledAt: null,
+    //     });
+    // const pathname = usePathname();
+
+    const [isChatJoinOrCreate, setIsChatJoinOrCreate] = useState<boolean>(false);
+    // const [roomId, setRoomId] = useState<string>("");
+    const [roomName, setRoomName] = useState<string>("");
     const { contextRoomId, setContextRoomId, connected, setConnected } = useChatContext();
+    const [loadingAction, setLoadingAction] = useState<'creating' | 'joining' | null>(null);
 
     function validateInput(){
-        if(roomId.trim() === ""){
+        if(roomName.trim() === ""){
             toast.error("Room id cannot be empty");
             return false;
         }
@@ -44,9 +50,11 @@ const Page = () => {
 
 
     async function joinChat(){
+        console.log("Join Chat clicked")
+        setLoadingAction('joining'); 
         if(validateInput()){
             try {
-            const response = await joinChatUtils(roomId);
+            const response = await joinChatUtils(roomName);
             if(!response) {
                 toast.error("Something went wrong, try again later");
                 return;
@@ -55,39 +63,53 @@ const Page = () => {
             console.log("Joined:", response);
             setContextRoomId(response.roomId);
             setConnected(true);
+            router.push(`/chat-room/${response.roomId}`);     
             toast.success("Room joined successfully");
             console.log("room id ",response.roomId)
-            router.push(`/chat-room/${response.roomId}`);     
             } catch (err) {
             const error = err as AxiosError;
-            if(error.status === 404){
+            if(error.response?.status === 404){
                 toast.error("Room not found");
+            }else{
+                toast.error("Failed to joining room");
             }
             console.error("Error occurred while joining room:", error);
-            toast.error("Failed to joining room");
+            }finally {
+            // no matter what happens in try/catch, finally block executes definitely
+            setLoadingAction(null); 
             }
-        }
+        }else{
+            setLoadingAction(null);
+        }        
+        
     }
 
     async function createChat(){
+        setLoadingAction('creating');
         if(validateInput()){
             try {
-            const response = await createRoomUtils(roomId);
+            const response = await createRoomUtils(roomName);
             
             if(!response) {
-                toast.error("Something went wrong, try using another room id");
+                toast.error("Something went wrong, try using another room name");
                 return;
             };
             console.log("Room created:", response);
             setContextRoomId(response.roomId);
             setConnected(true);
             toast.success("Room created successfully");
+            setIsChatJoinOrCreate(false)
             router.push(`/chat-room/${response.roomId}`);
             
         } catch (error) {
             console.error("Error occurred while creating room:", error);
+            setIsChatJoinOrCreate(false)
             toast.error("Failed to create room");
+        }finally {
+        // no matter what happens in try/catch, finally block executes definitely
+        setLoadingAction(null);
         }
+
         }
     }
         
@@ -104,22 +126,54 @@ const Page = () => {
                 <Image src="/icons/chat-room-icon.svg" alt='image' width={72} height={72} className='max-sm:size-18' />
             </div>
 
-            <DialogTitle className='flex-center font-bold text-2xl'>Enter room id</DialogTitle>
+            <div>
+                
+            </div>
+            <DialogTitle className='flex-center font-bold text-2xl'>Enter room name</DialogTitle>
             <h1 className='flex-center font-bold text-2xl leading-[42px]'>
-                <Input value={roomId} onChange={(event) => setRoomId(event.target.value)} placeholder='Enter room id' name='roomId' type='text'></Input>
-            </h1>
+                {/* roomId is changed to roomName */}
+                <Input value={roomName} onChange={(event) => setRoomName(event.target.value)} placeholder='Enter room name' name='roomId' type='text'></Input>
+            </h1> 
 
             <div className='flex justify-between gap-4'>
             {/* create */}
             <Button className="bg-green-600 hover:bg-green-700 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg items-center" 
             onClick={() => {
                 createChat();
-            }}>Create Chat</Button>
+            }}
+            disabled={!!loadingAction}
+            >  
+                {loadingAction === 'creating' ? (
+                    <div className='flex items-center gap-2'>
+                        <p>Creating</p>
+                        <Tailspin
+                        size="14"
+                        stroke="4"
+                        speed="0.9"
+                        color="white" 
+                />
+                    </div>
+                ) : "Create Chat"}
+                
+            </Button>
 
             {/* join */}
             <Button className="bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg items-center" onClick={() => {
                 joinChat();
-            }}>Join Chat</Button>
+            }}
+            disabled={!!loadingAction}>
+                {loadingAction === 'joining' ? (
+                    <div className='flex items-center gap-2'>
+                        <p>Joining</p>
+                        <Tailspin
+                        size="14"
+                        stroke="4"
+                        speed="0.9"
+                        color="white" 
+                        />
+                    </div>
+                ) : "Join Chat"}
+            </Button>
 
             </div>
         </DialogContent>

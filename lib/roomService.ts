@@ -2,9 +2,9 @@ import { AxiosError } from "axios";
 import { httpClient } from "./axiosHelper"
 import { toast } from "sonner";
 
-export const createRoomUtils = async (roomId: string) => {
+export const createRoomUtils = async (roomName: string) => {
     try {
-        const response = await httpClient.post(`/api/v1/rooms/create/${roomId}`)
+        const response = await httpClient.post(`/api/v1/rooms/create/${roomName}`)
         toast.success("Room created successfully");
         return response.data;
     } catch (err) {
