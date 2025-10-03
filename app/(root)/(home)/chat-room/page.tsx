@@ -129,12 +129,24 @@ const Page = () => {
             <div>
                 
             </div>
-            <DialogTitle className='flex-center font-bold text-2xl'>Enter room name</DialogTitle>
-            <h1 className='flex-center font-bold text-2xl leading-[42px]'>
-                {/* roomId is changed to roomName */}
-                <Input value={roomName} onChange={(event) => setRoomName(event.target.value)} placeholder='Enter room name' name='roomId' type='text'></Input>
-            </h1> 
-
+            <DialogTitle className='flex-center font-bold text-2xl'>Join or Create room</DialogTitle>
+            <div className="flex flex-col items-start gap-1 w-full" >
+                <h1 className='font-bold text-2xl w-full'>
+                    <Input 
+                    value={roomName} 
+                    onChange={(event) => setRoomName(event.target.value)} 
+                    placeholder='Room name or ID' 
+                    name='roomId' 
+                    type='text'
+                    className='w-full'
+                    />
+                </h1> 
+                
+                {/* Changed to a <p> tag for better semantics */}
+                <p className='text-sm text-gray-500'>
+                    **Enter a room name to create or a room ID to join.
+                </p>
+                </div>
             <div className='flex justify-between gap-4'>
             {/* create */}
             <Button className="bg-green-600 hover:bg-green-700 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg items-center" 
