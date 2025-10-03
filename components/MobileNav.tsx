@@ -28,7 +28,7 @@ const MobileNav = () => {
             className='cursor-pointer sm:hidden'
           />
         </SheetTrigger>
-        <SheetContent side='left' className='border-none bg-[var(--color-sidebar-primary-bg)]'>
+        <SheetContent side='right' className='border-none bg-[var(--color-sidebar-primary-bg)]'>
             <Link href='/' className='flex gap-1 items-center p-3'>
             <Image src='/icons/logo.svg' alt='Logo' width={30} height={30} className='max-sm:size-14'/>
             <p className='text-[26px] font-extrabold text-white '>Simple Meet</p> 

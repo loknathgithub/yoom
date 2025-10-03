@@ -15,27 +15,12 @@ import useChatContext from '@/context/ChatContext';
 import { AxiosError } from 'axios';
 import { Tailspin } from 'ldrs/react'
 import 'ldrs/react/Tailspin.css'
-
-interface MeetingValues {
-    dateTime: Date | null
-    description: string
-    link: string
-    scheduledAt: string | null
-}
+import CreateChatModal from '@/components/CreateChatRoom';
 
 const Page = () => {
     const router = useRouter();
-    // const [meetingState, setMeetingState] = React.useState<'isScheduleMeeting'|'isJoiningMeeting'|'isInstantMeeting'|undefined>()
-    // const [values, setValues] = useState<MeetingValues>({
-    //         dateTime: new Date,
-    //         description:'',
-    //         link:'',
-    //         scheduledAt: null,
-    //     });
-    // const pathname = usePathname();
-
     const [isChatJoinOrCreate, setIsChatJoinOrCreate] = useState<boolean>(false);
-    // const [roomId, setRoomId] = useState<string>("");
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const [roomName, setRoomName] = useState<string>("");
     const { contextRoomId, setContextRoomId, connected, setConnected } = useChatContext();
     const [loadingAction, setLoadingAction] = useState<'creating' | 'joining' | null>(null);
@@ -48,11 +33,10 @@ const Page = () => {
         return true;
     }
 
-
     async function joinChat(){
         console.log("Join Chat clicked")
-        setLoadingAction('joining'); 
         if(validateInput()){
+            setLoadingAction('joining'); 
             try {
             const response = await joinChatUtils(roomName);
             if(!response) {
@@ -63,7 +47,7 @@ const Page = () => {
             console.log("Joined:", response);
             setContextRoomId(response.roomId);
             setConnected(true);
-            router.push(`/chat-room/${response.roomId}`);     
+            router.push(`/chat-room/${response.roomId}`);    
             toast.success("Room joined successfully");
             console.log("room id ",response.roomId)
             } catch (err) {
@@ -83,40 +67,17 @@ const Page = () => {
         }        
         
     }
-
-    async function createChat(){
-        setLoadingAction('creating');
-        if(validateInput()){
-            try {
-            const response = await createRoomUtils(roomName);
-            
-            if(!response) {
-                toast.error("Something went wrong, try using another room name");
-                return;
-            };
-            console.log("Room created:", response);
-            setContextRoomId(response.roomId);
-            setConnected(true);
-            toast.success("Room created successfully");
-            setIsChatJoinOrCreate(false)
-            router.push(`/chat-room/${response.roomId}`);
-            
-        } catch (error) {
-            console.error("Error occurred while creating room:", error);
-            setIsChatJoinOrCreate(false)
-            toast.error("Failed to create room");
-        }finally {
-        // no matter what happens in try/catch, finally block executes definitely
-        setLoadingAction(null);
-        }
-
-        }
-    }
         
     useEffect(() => {
-    if(connected)
+    if (connected && contextRoomId) {
+        const timeout = setTimeout(() => {
         router.push(`/chat-room/${contextRoomId}`);
+        }, 15000);
+
+        return () => clearTimeout(timeout);
+    }
     }, [connected, contextRoomId, router]);
+
     
     return (
     <div>
@@ -135,26 +96,22 @@ const Page = () => {
                     <Input 
                     value={roomName} 
                     onChange={(event) => setRoomName(event.target.value)} 
-                    placeholder='Room name or ID' 
+                    placeholder='Enter Room ID to join' 
                     name='roomId' 
                     type='text'
                     className='w-full'
                     />
                 </h1> 
-                
-                {/* Changed to a <p> tag for better semantics */}
-                <p className='text-sm text-gray-500'>
-                    **Enter a room name to create or a room ID to join.
-                </p>
                 </div>
             <div className='flex justify-between gap-4'>
             {/* create */}
             <Button className="bg-green-600 hover:bg-green-700 focus-visible:ring-0 focus-visible:ring-offset-0 cursor-pointer text-lg items-center" 
             onClick={() => {
-                createChat();
+                setRoomName("")
+                setIsModalOpen(true);
             }}
             disabled={!!loadingAction}
-            >  
+            >
                 {loadingAction === 'creating' ? (
                     <div className='flex items-center gap-2'>
                         <p>Creating</p>
@@ -163,7 +120,7 @@ const Page = () => {
                         stroke="4"
                         speed="0.9"
                         color="white" 
-                />
+                    />
                     </div>
                 ) : "Create Chat"}
                 
@@ -190,9 +147,10 @@ const Page = () => {
             </div>
         </DialogContent>
         </Dialog>
+
+        <CreateChatModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
     </div>
     )
 }
 
-
-export default Page
+export default Page;

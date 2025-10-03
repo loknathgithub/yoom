@@ -19,6 +19,7 @@ interface MeetingModalProps{
     children?: ReactNode;
 }
 
+
 const MeetingModal = ({isOpen, onClose, title, buttonText, handleClick, className, buttonIcon, image, children}: MeetingModalProps) => {
   return (
     <section>

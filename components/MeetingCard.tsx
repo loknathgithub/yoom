@@ -41,8 +41,8 @@ return (
         </div>
     </div>
     </article>
-    <article className={cn("flex justify-center relative", {})}>
-    <div className="relative flex w-full max-sm:hidden">
+    <article className={cn("flex justify-end relative", {})}>
+    {/* <div className="relative flex w-full max-sm:hidden">
         {avatarImages.map((img, index) => (
         <Image
             key={index}
@@ -57,7 +57,7 @@ return (
         <div className="flex-center absolute left-[136px] size-10 rounded-full border-[5px] border-dark-3 bg-dark-4">
         +5
         </div>
-    </div>
+    </div> */}
     {!isPreviousMeeting && (
         <div className="flex gap-2 pr-4">
         <Button onClick={handleClick} className="justify-center rounded-lg bg-[var(--color-isActive)] hover:bg-[var(--color-isActive-hover)] p-4 cursor-pointer">

@@ -22,10 +22,10 @@ const MeetingTypeList = () => {
     const { user } = useUser();
     const client = useStreamVideoClient();
     const [values, setValues] = useState<MeetingValues>({
-        dateTime: new Date,
+        dateTime: new Date(),
+        scheduledAt: new Date().toISOString(),
         description:'',
         link:'',
-        scheduledAt: null,
     });
     const [callDetails, setCallDetails] = useState<Call>();
 
