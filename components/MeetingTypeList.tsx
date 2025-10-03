@@ -29,23 +29,23 @@ const MeetingTypeList = () => {
     });
     const [callDetails, setCallDetails] = useState<Call>();
 
-    const createMeeting = async () => {
+    const createMeeting = async (type: 'instant' | 'schedule') => {
         if(!user || !client) return;
 
         try {
             if(!values.dateTime){
-                console.log(values)
+                // console.log(values)
                 toast("Please select a date and time");
                 return;
             }
 
-            console.log("createMeeting -> using values:", values);
+            // console.log("createMeeting -> using values:", values);
             const id = crypto.randomUUID();
             const call = client.call('default', id);
             if(!call) throw new Error("Failed to create meeting");
 
             const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString();
-            console.log("createMeeting -> startsAt being sent:", startsAt);
+            // console.log("createMeeting -> startsAt being sent:", startsAt);
             const description = values.description || 'Instant Meeting';
 
             await call.getOrCreate({
@@ -58,7 +58,9 @@ const MeetingTypeList = () => {
             });
 
             setCallDetails(call);
-            if(!values.description) router.push(`/meeting/${call.id}`);
+
+            // console.log("Here the state of meeting is: ", type)
+            if(type === 'instant') router.push(`/meeting/${call.id}`);
             toast("Event has been created")
 
         } catch (error) {
@@ -109,7 +111,7 @@ return (
             isOpen={ meetingState === 'isScheduleMeeting'}
             onClose={ ()=> setMeetingState(undefined)}
             title="Create Meeting"
-            handleClick={createMeeting}>
+            handleClick={() => createMeeting('schedule')}>
         <div className='flex flex-col w-full gap-5'>
                 <div className='flex justify-start flex-col gap-2.5 w-full '>
                     
@@ -124,7 +126,7 @@ return (
                     <DatePicker 
                     value = {values.scheduledAt}
                     onChange={(iso) => {
-                            console.log("Parent onChange received:", iso);
+                            // console.log("Parent onChange received:", iso);
                             setValues(prev => ({
                                 ...prev,
                                 scheduledAt: iso,
@@ -157,7 +159,7 @@ return (
             title="Start an Instant Meeting"
             buttonText="Create now"
             className="text-center"
-            handleClick={createMeeting}/>
+            handleClick={() => createMeeting('instant')}/>
 
 
         {/* Join meeting modal */}
